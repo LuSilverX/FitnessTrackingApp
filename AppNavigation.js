@@ -10,13 +10,14 @@ import RegisterScreen from './RegisterScreen';
 import HomeScreen from './HomeScreen';
 import TrackerScreen from './TrackerScreen';
 import TrackedWorkoutsScreen from './TrackedWorkoutsScreen'; 
+import RecommendationsScreen from './RecommendationScreen';
 import SearchScreen from './SearchScreen'
 
 // Placeholder components for demonstration
 // Make sure you replace these with your actual screens
 
-const RecommendationsScreen = () => <View><Text>Recommendations</Text></View>;
-const ProfileScreen = () => <View><Text>Settings</Text></View>;
+
+const ProfileScreen = () => <View><Text>Profile</Text></View>;
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();

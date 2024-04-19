@@ -5,8 +5,15 @@ import axios from 'axios';
 const SearchScreen = () => {
   const [query, setQuery] = useState('');
   const [products, setProducts] = useState([]);
+  const [error, setError] = useState('');
 
   const handleSearch = async () => {
+    setError(''); // Clear any previous errors
+    if (!query.trim()) {
+      setError('Please enter a search term.');
+      return;
+    }
+
     const graphqlQuery = `
       {
         products(first: 5, query: "title:*${query}*") {
@@ -36,17 +43,22 @@ const SearchScreen = () => {
     try {
       const response = await axios({
         method: 'POST',
-        url: 'https://quickstart-ca6ada74.myshopify.com/api/2021-10/graphql.json', // Replace with your Shopify store's GraphQL endpoint
+        url: 'https://quickstart-ca6ada74.myshopify.com/api/2021-10/graphql.json',
         headers: {
-          'X-Shopify-Storefront-Access-Token': '0ca170b2f491752d4fe31757e2d0fea5', // Replace with your Storefront access token
+          'X-Shopify-Storefront-Access-Token': '0ca170b2f491752d4fe31757e2d0fea5',
           'Content-Type': 'application/json',
         },
         data: JSON.stringify({ query: graphqlQuery }),
       });
 
-      setProducts(response.data.data.products.edges.map(edge => edge.node));
+      const fetchedProducts = response.data.data.products.edges.map(edge => edge.node);
+      if (fetchedProducts.length === 0) {
+        setError('No products found. Try a different search term.');
+      }
+      setProducts(fetchedProducts);
     } catch (error) {
-      console.error('Error fetching products:', error.response ? error.response.data : error);
+      setError('Error fetching products. Please try again.');
+      console.error('Error fetching products:', error.response ? error.response.data : error.message);
     }
   };
 
@@ -59,6 +71,7 @@ const SearchScreen = () => {
         onChangeText={setQuery}
       />
       <Button title="Search" onPress={handleSearch} />
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
       <FlatList
         data={products}
         keyExtractor={(item) => item.id}
@@ -70,7 +83,6 @@ const SearchScreen = () => {
               source={{ uri: item.images.edges[0]?.node.src }}
             />
             <Text>{`${item.priceRange.minVariantPrice.amount} ${item.priceRange.minVariantPrice.currencyCode}`}</Text>
-            {/* You can add more details you need here */}
           </View>
         )}
       />
@@ -97,6 +109,11 @@ const styles = StyleSheet.create({
   image: {
     width: 150,
     height: 150,
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginBottom: 20,
   },
 });
 
