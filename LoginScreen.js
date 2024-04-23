@@ -1,34 +1,26 @@
-// LoginScreen.js
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import {
-  ImageBackground,
-  Text,
-  TextInput,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
-import { auth } from './FirebaseConfig'; // Note that case-sensitivity matters in file paths
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+import {ImageBackground,Text,TextInput,Button,StyleSheet,TouchableOpacity,} from 'react-native';
+import { auth } from './FirebaseConfig';  
+import { useNavigation } from '@react-navigation/native'; 
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigation = useNavigation(); // Hook to get the navigation object
+  const navigation = useNavigation(); 
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        // You can now redirect the user to another screen or update the state
+        // Redirect the user to another screen or update the state
         console.log('User logged in: ', user);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        // Handle errors here, such as displaying a notification to the user
+        // Error handling
         console.error('Error signing in: ', errorCode, errorMessage);
         // Depending on errorCode, show the user the appropriate message
       });
@@ -36,7 +28,7 @@ const LoginScreen = () => {
 
   return (
     <ImageBackground 
-      source={require('./assets/UIB.png')} // Make sure the path to your image is correct
+      source={require('./assets/UIB1.png')} 
       style={styles.container}
       resizeMode="cover"
     >
@@ -68,14 +60,14 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center', // Centered in the middle of the screen
+    justifyContent: 'center', 
     alignItems: 'center',
     padding: 20,
   },
   title: {
     fontSize: 40,
     fontWeight: 'bold',
-    color: '#000000',
+    color: '#33E9FF',
     marginBottom: 20,
   },
   input: {
@@ -89,10 +81,10 @@ const styles = StyleSheet.create({
   },
   registerText: {
     marginTop: 20,
-    color: '#0000ff', // Make text blue
-    textDecorationLine: 'underline', // Underline the text
+    color: '#fff', 
+    textDecorationLine: 'underline', 
   },
-  // Add additional styles as needed
+ 
 });
 
 export default LoginScreen;
