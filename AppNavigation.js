@@ -11,18 +11,15 @@ import HomeScreen from './HomeScreen';
 import TrackerScreen from './TrackerScreen';
 import TrackedWorkoutsScreen from './TrackedWorkoutsScreen'; 
 import RecommendationsScreen from './RecommendationScreen';
-import SearchScreen from './SearchScreen'
-
-// Placeholder components for demonstration
-// Make sure you replace these with your actual screens
-
+import SearchScreen from './SearchScreen';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ProfileScreen = () => <View><Text>Profile</Text></View>;
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// Tracker stack inside the tab
+// Tracker stack 
 function TrackerStack() {
   return (
     <Stack.Navigator>
@@ -32,9 +29,33 @@ function TrackerStack() {
   );
 }
 
-// Main app tabs
 const MainAppTabs = () => (
-  <Tab.Navigator>
+  <Tab.Navigator
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === 'Home') {
+          iconName = 'home'; // name of the icon from MaterialIcons
+        } else if (route.name === 'Tracker') {
+          iconName = 'fitness-center'; // example icon name
+        } else if (route.name === 'Recommendations') {
+          iconName = 'thumbs-up-down'; // example icon name
+        } else if (route.name === 'Search') {
+          iconName = 'search'; // name of the icon from MaterialIcons
+        } else if (route.name === 'Profile') {
+          iconName = 'person'; // name of the icon from MaterialIcons
+        }
+
+        // You can return any component that you like here!
+        return <MaterialIcons name={iconName} size={size} color={color} />;
+      },
+    })}
+    tabBarOptions={{
+      activeTintColor: 'tomato',
+      inactiveTintColor: 'gray',
+    }}
+  >
     <Tab.Screen name="Home" component={HomeScreen} />
     <Tab.Screen name="Tracker" component={TrackerStack} />
     <Tab.Screen name="Recommendations" component={RecommendationsScreen} />
@@ -61,7 +82,7 @@ const AppNavigation = () => {
       setIsAuthenticated(!!user);
     });
 
-    return unsubscribe; // Clean up the subscription on unmount
+    return unsubscribe; // Cleaning up the subscription on unmount
   }, []);
 
   return (
