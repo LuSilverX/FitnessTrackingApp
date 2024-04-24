@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const RecommendationScreen = () => {
   const [recommendations, setRecommendations] = useState([]);
-  const [lastCursor, setLastCursor] = useState(null); // Cursor for pagination
+  const [cursorStack, setCursorStack] = useState([]); // Stack to manage navigation history
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -18,14 +18,19 @@ const RecommendationScreen = () => {
     setLoading(true);
     setError('');
 
+    // Fetch the last workout to determine the keyword
     const workoutsQuery = query(collection(db, 'workouts'), orderBy('timestamp', 'desc'), limit(1));
     const workoutSnapshot = await getDocs(workoutsQuery);
-    const lastWorkout = workoutSnapshot.docs[0]?.data();
+    const lastWorkout = workoutSnapshot.docs[workoutSnapshot.docs.length - 1]?.data();
     const keyword = lastWorkout && lastWorkout.miles > 6 ? 'long' : 'sprint';
 
     let paginationQuery = '';
-    if (direction === 'next' && lastCursor) {
-      paginationQuery = `, after: "${lastCursor}"`;
+    if (direction === 'next' && cursorStack.length > 0) {
+      paginationQuery = `, after: "${cursorStack[cursorStack.length - 1]}"`;
+    } else if (direction === 'previous' && cursorStack.length > 1) {
+      // Remove the current cursor as we are moving back
+      cursorStack.pop();
+      paginationQuery = cursorStack.length > 1 ? `, after: "${cursorStack[cursorStack.length - 2]}"` : '';
     }
 
     const graphqlQuery = {
@@ -71,7 +76,10 @@ const RecommendationScreen = () => {
       );
       const { edges, pageInfo } = response.data.data.products;
       setRecommendations(edges.map(edge => edge.node));
-      setLastCursor(edges.length > 0 ? edges[edges.length - 1].cursor : null);
+      if (direction === 'next' && edges.length > 0) {
+        // Push the new cursor when moving forward
+        setCursorStack([...cursorStack, edges[edges.length - 1].cursor]);
+      }
       setLoading(false);
     } catch (error) {
       setError('Error fetching recommendations. Please try again.');
@@ -82,6 +90,12 @@ const RecommendationScreen = () => {
 
   const handleNextPage = () => {
     fetchRecommendations('next');
+  };
+
+  const handlePreviousPage = () => {
+    if (cursorStack.length > 1) {
+      fetchRecommendations('previous');
+    }
   };
 
   return (
@@ -98,7 +112,8 @@ const RecommendationScreen = () => {
           </View>
         )}
       />
-      <Button title="Next Page" onPress={handleNextPage} disabled={!lastCursor || loading} />
+      <Button title="Next Page" onPress={handleNextPage} disabled={loading || !cursorStack.length} />
+      <Button title="Previous Page" onPress={handlePreviousPage} disabled={loading || cursorStack.length <= 1} />
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
     </View>
   );
