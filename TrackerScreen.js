@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { db } from './FirebaseConfig'; // Assuming firebaseConfig is in the same directory
+import { db } from './FirebaseConfig'; 
 import { collection, addDoc } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 
@@ -19,17 +19,16 @@ const TrackerScreen = () => {
         workoutType: selectedWorkout,
         miles: miles,
         duration: { hours: hours, minutes: minutes },
-        timestamp: new Date() // Optional: add a timestamp to each workout log
+        timestamp: new Date() 
       });
       console.log(`Workout logged with ID: ${docRef.id}`);
-      // Clear the form or navigate away
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   };
   
   const navigateToTrackedWorkouts = () => {
-    navigation.navigate('TrackedWorkouts'); // Make sure 'TrackedWorkouts' matches the name of the screen in your navigator
+    navigation.navigate('TrackedWorkouts'); 
   };
 
   return (
@@ -50,7 +49,7 @@ const TrackerScreen = () => {
         <Picker.Item label="Strength Training" value="strength" />
         <Picker.Item label="Pilates" value="pilates" />
         <Picker.Item label="CrossFit" value="crossfit" />
-        {/* Add more workout options here */}
+        {/* More workout options */}
       </Picker>
 
       {selectedWorkout === 'running' && (
@@ -91,7 +90,7 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff', // Or your desired background color
+    backgroundColor: '#fff', 
   },
   title: {
     fontSize: 50,

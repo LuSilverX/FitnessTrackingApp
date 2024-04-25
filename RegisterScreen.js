@@ -1,8 +1,7 @@
-// RegisterScreen.js
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
-import { auth } from './FirebaseConfig'; // Make sure this path is correct
+import { auth } from './FirebaseConfig'; 
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState('');
@@ -19,12 +18,12 @@ const RegisterScreen = () => {
         // User registered successfully
         const user = userCredential.user;
         console.log('User registered: ', user);
-        // You can now redirect the user or update your state as needed
+        // Redirect the user or update state as needed
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        // Handle errors here, such as showing an error message to the user
+        // Error handling
         console.error('Error registering: ', errorCode, errorMessage);
         alert(errorMessage);
       });
@@ -73,7 +72,7 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 4,
   },
-  // Add more styles if needed
+ 
 });
 
 export default RegisterScreen;

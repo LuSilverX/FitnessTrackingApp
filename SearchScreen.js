@@ -6,7 +6,8 @@ const SearchScreen = () => {
   const [query, setQuery] = useState('');
   const [products, setProducts] = useState([]);
   const [error, setError] = useState('');
-  const [lastCursor, setLastCursor] = useState(null); // Cursor for pagination
+  const [lastCursor, setLastCursor] = useState(null);
+  const [prevCursors, setPrevCursors] = useState([]); // Stack of previous cursors for pagination
   const [loading, setLoading] = useState(false);
 
   const fetchProducts = async (direction = 'next') => {
@@ -21,6 +22,8 @@ const SearchScreen = () => {
     let paginationQuery = '';
     if (direction === 'next' && lastCursor) {
       paginationQuery = `, after: "${lastCursor}"`;
+    } else if (direction === 'prev' && prevCursors.length > 0) {
+      paginationQuery = `, before: "${prevCursors[prevCursors.length - 1]}"`;
     }
 
     const graphqlQuery = {
@@ -48,6 +51,7 @@ const SearchScreen = () => {
           }
           pageInfo {
             hasNextPage
+            hasPreviousPage
           }
         }
       }`
@@ -69,10 +73,16 @@ const SearchScreen = () => {
         setError('No products found. Try a different search term.');
       } else {
         setProducts(edges.map(edge => edge.node));
-        setLastCursor(edges[edges.length - 1].cursor);
+        const newCursor = edges[edges.length - 1].cursor;
+        if (direction === 'next') {
+          setPrevCursors([...prevCursors, lastCursor]); // Push the last cursor for "Previous" functionality
+          setLastCursor(newCursor);
+        } else if (direction === 'prev') {
+          setPrevCursors(prevCursors.slice(0, prevCursors.length - 1)); // Pop the last cursor
+          setLastCursor(prevCursors[prevCursors.length - 2] || null);
+        }
       }
       setLoading(false);
-      return pageInfo.hasNextPage;
     } catch (error) {
       setError('Error fetching products. Please try again.');
       setLoading(false);
@@ -81,12 +91,19 @@ const SearchScreen = () => {
   };
 
   const handleSearch = () => {
-    setLastCursor(null); // Reset pagination
+    setLastCursor(null);
+    setPrevCursors([]);
     fetchProducts();
   };
 
   const handleNextPage = () => {
     fetchProducts('next');
+  };
+
+  const handlePrevPage = () => {
+    if (prevCursors.length > 0) {
+      fetchProducts('prev');
+    }
   };
 
   return (
@@ -115,7 +132,10 @@ const SearchScreen = () => {
           </View>
         )}
       />
-      <Button title="Next Page" onPress={handleNextPage} disabled={!lastCursor || loading} />
+      <View style={styles.paginationContainer}>
+        <Button title="Previous Page" onPress={handlePrevPage} disabled={prevCursors.length === 0 || loading} />
+        <Button title="Next Page" onPress={handleNextPage} disabled={!lastCursor || loading} />
+      </View>
     </View>
   );
 };
@@ -162,6 +182,11 @@ const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
     marginBottom: 20,
+  },
+  paginationContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
   },
 });
 

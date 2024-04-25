@@ -1,4 +1,3 @@
-// HomeScreen.js
 import React from 'react';
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
@@ -28,16 +27,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    marginBottom: 20, // Add some space between the buttons
-    elevation: 2, // Optional: this adds a shadow on Android
-    shadowOpacity: 0.6, // Optional: this adds shadow on iOS
-    shadowRadius: 10, // Optional: this adds shadow on iOS
-    shadowOffset: { width: 0, height: 2 }, // Optional: this adds shadow on iOS
+    marginBottom: 20, // space between the buttons
+    elevation: 2, // adds a shadow (Android)
+    shadowOpacity: 0.6, // adds shadow (IOS)
+    shadowRadius: 10, // adds shadow (IOS)
+    shadowOffset: { width: 0, height: 2 }, // adds shadow on (IOS)
   },
   image: {
-    width: 500, // Set the width as per your requirement
-    height: 250, // Set the height as per your requirement
-    resizeMode: 'contain', // This will ensure the image fits within the dimensions and maintains aspect ratio
+    width: 500, 
+    height: 250, 
+    resizeMode: 'contain', // ensuring the image fits within the dimensions and maintains aspect ratio
   },
 });
 

@@ -13,8 +13,9 @@ import TrackedWorkoutsScreen from './TrackedWorkoutsScreen';
 import RecommendationsScreen from './RecommendationScreen';
 import SearchScreen from './SearchScreen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import ProfileScreen from './ProfileScreen';
 
-const ProfileScreen = () => <View><Text>Profile</Text></View>;
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();

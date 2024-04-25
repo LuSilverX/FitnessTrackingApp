@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { db } from './FirebaseConfig'; // Import your db instance from the firebase config file
-import { collection, query, orderBy, getDocs } from 'firebase/firestore'; // Import query and orderBy
+import { db } from './FirebaseConfig'; 
+import { collection, query, orderBy, getDocs } from 'firebase/firestore';
 
 const TrackedWorkoutsScreen = () => {
   const [trackedWorkouts, setTrackedWorkouts] = useState([]);
 
   useEffect(() => {
     const fetchWorkouts = async () => {
-      const workoutsCollectionRef = collection(db, 'workouts'); // Reference to your Firestore collection
-      const workoutsQuery = query(workoutsCollectionRef, orderBy('timestamp', 'desc')); // Query that orders the workouts by the 'createdAt' field, newest first
+      const workoutsCollectionRef = collection(db, 'workouts'); 
+      const workoutsQuery = query(workoutsCollectionRef, orderBy('timestamp', 'desc')); 
       try {
         const querySnapshot = await getDocs(workoutsQuery);
         const workouts = querySnapshot.docs.map(doc => {
@@ -18,7 +18,7 @@ const TrackedWorkoutsScreen = () => {
             id: doc.id,
             workoutType: data.workoutType,
             miles: data.miles,
-            duration: data.duration, // Keep the nested structure of duration
+            duration: data.duration, 
           };
         });
         setTrackedWorkouts(workouts);
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   workoutText: {
     fontSize: 18,
   },
-  // Add more styles as needed
+
 });
 
 export default TrackedWorkoutsScreen;
