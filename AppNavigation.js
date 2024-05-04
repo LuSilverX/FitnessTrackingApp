@@ -15,8 +15,6 @@ import SearchScreen from './SearchScreen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ProfileScreen from './ProfileScreen';
 
-
-
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -24,7 +22,7 @@ const Tab = createBottomTabNavigator();
 function TrackerStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Tracker" component={TrackerScreen} />
+      <Stack.Screen name="TrackerMain" component={TrackerScreen} options={{ title: 'Tracker' }} />
       <Stack.Screen name="TrackedWorkouts" component={TrackedWorkoutsScreen} />
     </Stack.Navigator>
   );
@@ -35,27 +33,23 @@ const MainAppTabs = () => (
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
-
         if (route.name === 'Home') {
-          iconName = 'home'; // name of the icon from MaterialIcons
+          iconName = 'home'; 
         } else if (route.name === 'Tracker') {
-          iconName = 'fitness-center'; // example icon name
+          iconName = 'fitness-center'; 
         } else if (route.name === 'Recommendations') {
-          iconName = 'thumbs-up-down'; // example icon name
+          iconName = 'thumbs-up-down'; 
         } else if (route.name === 'Search') {
-          iconName = 'search'; // name of the icon from MaterialIcons
+          iconName = 'search'; 
         } else if (route.name === 'Profile') {
-          iconName = 'person'; // name of the icon from MaterialIcons
+          iconName = 'person'; 
         }
-
-        // You can return any component that you like here!
         return <MaterialIcons name={iconName} size={size} color={color} />;
       },
+      tabBarActiveTintColor: 'tomato',
+      tabBarInactiveTintColor: 'gray',
+      tabBarStyle: [{ display: 'flex' }]
     })}
-    tabBarOptions={{
-      activeTintColor: 'tomato',
-      inactiveTintColor: 'gray',
-    }}
   >
     <Tab.Screen name="Home" component={HomeScreen} />
     <Tab.Screen name="Tracker" component={TrackerStack} />
@@ -83,7 +77,7 @@ const AppNavigation = () => {
       setIsAuthenticated(!!user);
     });
 
-    return unsubscribe; // Cleaning up the subscription on unmount
+    return unsubscribe; // Cleaning up subscription on unmount
   }, []);
 
   return (

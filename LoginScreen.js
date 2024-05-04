@@ -14,7 +14,7 @@ const LoginScreen = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        // Redirect the user to another screen or update the state
+        // Redirecting user to another screen or update the state
         console.log('User logged in: ', user);
       })
       .catch((error) => {

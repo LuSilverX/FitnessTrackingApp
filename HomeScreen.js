@@ -4,7 +4,7 @@ import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 const HomeScreen = () => {
   return (
     <View style={styles.container}>
-      {/* Wrap each image with TouchableOpacity to make them look like buttons */}
+      {/* TouchableOpacity to make them look like buttons */}
       <TouchableOpacity style={styles.button}>
         <Image source={require('./assets/WorkoutGuides.png')} style={styles.image} />
       </TouchableOpacity>
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   image: {
     width: 500, 
     height: 250, 
-    resizeMode: 'contain', // ensuring the image fits within the dimensions and maintains aspect ratio
+    resizeMode: 'contain', // maintaing aspect ratio
   },
 });
 

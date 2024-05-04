@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text, ImageBackground } from 'react-native';
 import { auth } from './FirebaseConfig'; 
 
 const RegisterScreen = () => {
@@ -30,39 +30,45 @@ const RegisterScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Email"
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={styles.input}
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Password"
-        secureTextEntry
-      />
-      <TextInput
-        style={styles.input}
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        placeholder="Confirm Password"
-        secureTextEntry
-      />
-      <Button title="Register" onPress={handleRegister} />
-    </View>
+    <ImageBackground source={require('./assets/UIB1.png')} style={styles.background}>
+      <View style={styles.container}>
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Email"
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+        <TextInput
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Password"
+          secureTextEntry
+        />
+        <TextInput
+          style={styles.input}
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          placeholder="Confirm Password"
+          secureTextEntry
+        />
+        <Button title="Register" onPress={handleRegister} />
+      </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  background: {
     flex: 1,
+    justifyContent: 'center',
+  },
+  container: {
     padding: 16,
     justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Optional: Add opacity for better readability
   },
   input: {
     height: 40,
@@ -72,7 +78,6 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 4,
   },
- 
 });
 
 export default RegisterScreen;
