@@ -1,7 +1,20 @@
 import React from 'react';
-import { View, Text, Image, Button, StyleSheet } from 'react-native';
+import { View, Text, Image, Button, StyleSheet, Alert } from 'react-native';
+import { auth } from './FirebaseConfig';
+import { signOut } from 'firebase/auth';
 
 const ProfileScreen = () => {
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        Alert.alert("Logged Out", "You have successfully logged out.");
+        // Navigation handling is usually done here if needed
+      })
+      .catch(error => {
+        Alert.alert("Logout Error", error.message);
+      });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.profileSection}>
@@ -20,6 +33,7 @@ const ProfileScreen = () => {
         <Button title="Notifications" color="#000" onPress={() => {}}  />
         <Button title="Contact Us" color="#000" onPress={() => {}} />
         <Button title="More" color="#000" onPress={() => {}} />
+        <Button title="Logout" color="#D9534F" onPress={handleLogout} />
       </View>
     </View>
   );
