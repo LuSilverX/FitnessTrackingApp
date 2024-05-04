@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { View, TextInput, Button, StyleSheet, Text, ImageBackground } from 'react-native';
-import { auth } from './FirebaseConfig'; 
+import { View, TextInput, Button, StyleSheet, ImageBackground, Alert } from 'react-native';
+import { auth } from './FirebaseConfig';
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleRegister = () => {
     if (password !== confirmPassword) {
-      alert("Passwords don't match.");
+      Alert.alert("Error", "Passwords don't match.");
       return;
     }
     createUserWithEmailAndPassword(auth, email, password)
@@ -18,14 +18,14 @@ const RegisterScreen = () => {
         // User registered successfully
         const user = userCredential.user;
         console.log('User registered: ', user);
-        // Redirect the user or update state as needed
+        // Optionally redirect the user or update state as needed
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         // Error handling
         console.error('Error registering: ', errorCode, errorMessage);
-        alert(errorMessage);
+        Alert.alert("Registration Error", errorMessage);
       });
   };
 
@@ -55,6 +55,7 @@ const RegisterScreen = () => {
           secureTextEntry
         />
         <Button title="Register" onPress={handleRegister} />
+        <Button title="Back to Login" onPress={() => navigation.goBack()}  />
       </View>
     </ImageBackground>
   );
@@ -68,7 +69,6 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Optional: Add opacity for better readability
   },
   input: {
     height: 40,
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderColor: 'gray',
     borderRadius: 4,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
   },
 });
 
