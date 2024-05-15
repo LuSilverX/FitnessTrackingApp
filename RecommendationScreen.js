@@ -18,7 +18,7 @@ const RecommendationScreen = () => {
     setLoading(true);
     setError('');
 
-    // Fetch the last workout to determine the keyword
+    // Fetching the last workout to determine the keyword
     const workoutsQuery = query(collection(db, 'workouts'), orderBy('timestamp', 'desc'), limit(1));
     const workoutSnapshot = await getDocs(workoutsQuery);
     const lastWorkout = workoutSnapshot.docs[workoutSnapshot.docs.length - 1]?.data();

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { View, TextInput, Button, StyleSheet, ImageBackground, Alert } from 'react-native';
+import { View, TextInput, Button, StyleSheet, ImageBackground, Alert, Text } from 'react-native';
 import { auth } from './FirebaseConfig';
 
 const RegisterScreen = ({ navigation }) => {
@@ -32,6 +32,7 @@ const RegisterScreen = ({ navigation }) => {
   return (
     <ImageBackground source={require('./assets/UIB1.png')} style={styles.background}>
       <View style={styles.container}>
+        <Text style={styles.title}>Register</Text>
         <TextInput
           style={styles.input}
           value={email}
@@ -55,7 +56,7 @@ const RegisterScreen = ({ navigation }) => {
           secureTextEntry
         />
         <Button title="Register" onPress={handleRegister} />
-        <Button title="Back to Login" onPress={() => navigation.goBack()}  />
+        <Button title="Back to Login" onPress={() => navigation.goBack()} />
       </View>
     </ImageBackground>
   );
@@ -77,7 +78,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderColor: 'gray',
     borderRadius: 4,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: 35,
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
+    marginBottom: 20,
   },
 });
 

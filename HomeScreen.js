@@ -28,10 +28,10 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: 20, // space between the buttons
-    elevation: 2, // adds a shadow (Android)
-    shadowOpacity: 0.6, // adds shadow (IOS)
-    shadowRadius: 10, // adds shadow (IOS)
-    shadowOffset: { width: 0, height: 2 }, // adds shadow on (IOS)
+    elevation: 2, // Android Shadow
+    shadowOpacity: 0.6, // adds 
+    shadowRadius: 10, // shadow 
+    shadowOffset: { width: 0, height: 2 }, 
   },
   image: {
     width: 500, 

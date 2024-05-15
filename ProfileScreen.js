@@ -8,7 +8,6 @@ const ProfileScreen = () => {
     signOut(auth)
       .then(() => {
         Alert.alert("Logged Out", "You have successfully logged out.");
-        // Navigation handling is usually done here if needed
       })
       .catch(error => {
         Alert.alert("Logout Error", error.message);
