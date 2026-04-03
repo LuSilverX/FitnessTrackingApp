@@ -1,5 +1,5 @@
-This is a senior design project by me, Luis Silva. It is an app that allows users to track their fitness activity.
-Given the data and the activity engaged in, inputed by the user, the app will recommend products. Therefore it has E-Commerce capabilities.
-The app was developed using JS and Expo. It is really basic as it is just a prototype for a school project.
-The app is currently limited to the ability of imputing running data, and recives recommendations from my shopify store that i created for this project.
-The app also has the ability to search. But again solely from my makeshift shopify store.
+This project was developed as part of my senior design coursework at university. It is a mobile application that enables users to track their fitness activity and receive product recommendations based on their input data.
+
+The application allows users to log running-related activity, which is then used to generate personalized product suggestions through an integrated e-commerce component. Product data is sourced from a Shopify store that I created specifically for this project, and the app also includes a basic search functionality within this catalog.
+
+The app was built using JavaScript and Expo. As a prototype, its functionality is intentionally limited and serves as a proof of concept for combining fitness tracking with recommendation driven e-commerce.
